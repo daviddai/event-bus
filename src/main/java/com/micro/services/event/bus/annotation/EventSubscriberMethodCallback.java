@@ -7,19 +7,12 @@ import org.springframework.amqp.rabbit.listener.RabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
-import org.springframework.amqp.support.converter.MessageConversionException;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.util.ReflectionUtils;
-
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.UUID;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.micro.services.event.bus.event.EventEnum;
 import com.micro.services.event.bus.event.ProductCreated;
+import com.micro.services.event.bus.event.converter.EventObjectConverter;;
 
 public class EventSubscriberMethodCallback implements ReflectionUtils.MethodCallback {
 
@@ -53,31 +46,7 @@ public class EventSubscriberMethodCallback implements ReflectionUtils.MethodCall
                 amqpAdmin.declareBinding(BindingBuilder.bind(queue).to(exchange).with(eventEnum.getRoutingKey()));
 
                 MessageListenerAdapter messageListenerAdapter = new MessageListenerAdapter(bean, method.getName());
-                messageListenerAdapter.setMessageConverter(new MessageConverter() {
-                    @Override
-                    public Message toMessage(Object object, MessageProperties messageProperties)
-                            throws MessageConversionException {
-                        return null;
-                    }
-
-                    @Override
-                    public Object fromMessage(Message message) throws MessageConversionException {
-                        String json = new String(message.getBody());
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        
-                        try {
-                            return objectMapper.readValue(json, ProductCreated.class);
-                        } catch (JsonParseException e) {
-                            e.printStackTrace();
-                        } catch (JsonMappingException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        return null;
-                    }
-                });
+                messageListenerAdapter.setMessageConverter(new EventObjectConverter(eventEnum.getEventClass()));
 
                 SimpleRabbitListenerEndpoint simpleRabbitListenerEndpoint = new SimpleRabbitListenerEndpoint();
                 simpleRabbitListenerEndpoint.setMessageListener(messageListenerAdapter);

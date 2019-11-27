@@ -1,4 +1,4 @@
-package com.micro.services.event.bus.model;
+package com.micro.services.event.bus.event.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

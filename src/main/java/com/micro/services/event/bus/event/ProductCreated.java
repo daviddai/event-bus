@@ -2,7 +2,7 @@ package com.micro.services.event.bus.event;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.micro.services.event.bus.model.ProductContent;
+import com.micro.services.event.bus.event.model.ProductContent;
 
 public class ProductCreated {
 
