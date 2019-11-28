@@ -1,4 +1,4 @@
-package com.micro.services.event.bus.annotation;
+package com.micro.services.event.bus.subscriber.annotation;
 
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerEndpoint;
@@ -10,7 +10,7 @@ import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.util.ReflectionUtils;
 import java.lang.reflect.Method;
 import java.util.UUID;
-import com.micro.services.event.bus.event.EventEnum;
+import com.micro.services.event.bus.event.EventType;
 import com.micro.services.event.bus.event.ProductCreated;
 import com.micro.services.event.bus.event.converter.EventObjectConverter;;
 
@@ -36,24 +36,23 @@ public class EventSubscriberMethodCallback implements ReflectionUtils.MethodCall
     @Override
     public void doWith(Method method) throws IllegalArgumentException {
         if (method.isAnnotationPresent(EventSubscriber.class) && method.getParameterCount() == 1) {
-            final EventEnum eventEnum = getEventEnum(method.getParameterTypes()[0]);
+            final EventType eventType = getEventEnum(method.getParameterTypes()[0]);
 
-            if (eventEnum != null) {
-                TopicExchange exchange = new TopicExchange(eventEnum.getExchangeName());
+            if (eventType != null) {
+                TopicExchange exchange = new TopicExchange(eventType.getExchangeName());
                 amqpAdmin.declareExchange(exchange);
                 
                 Queue queue = amqpAdmin.declareQueue();
-                amqpAdmin.declareBinding(BindingBuilder.bind(queue).to(exchange).with(eventEnum.getRoutingKey()));
+                amqpAdmin.declareBinding(BindingBuilder.bind(queue).to(exchange).with(eventType.getRoutingKey()));
 
                 MessageListenerAdapter messageListenerAdapter = new MessageListenerAdapter(bean, method.getName());
-                messageListenerAdapter.setMessageConverter(new EventObjectConverter(eventEnum.getEventClass()));
+                messageListenerAdapter.setMessageConverter(new EventObjectConverter(eventType.getEventClass()));
 
                 SimpleRabbitListenerEndpoint simpleRabbitListenerEndpoint = new SimpleRabbitListenerEndpoint();
                 simpleRabbitListenerEndpoint.setMessageListener(messageListenerAdapter);
                 simpleRabbitListenerEndpoint.setId(UUID.randomUUID().toString());
 
-                rabbitListenerEndpointRegistry.registerListenerContainer(
-                        simpleRabbitListenerEndpoint, rabbitListenerContainerFactory);
+                rabbitListenerEndpointRegistry.registerListenerContainer(simpleRabbitListenerEndpoint, rabbitListenerContainerFactory);
 
                 SimpleMessageListenerContainer simpleMessageListenerContainer
                         = (SimpleMessageListenerContainer) rabbitListenerEndpointRegistry.getListenerContainer(simpleRabbitListenerEndpoint.getId());
@@ -64,9 +63,9 @@ public class EventSubscriberMethodCallback implements ReflectionUtils.MethodCall
         }
     }
 
-    private EventEnum getEventEnum(Class<?> argClass) {
+    private EventType getEventEnum(Class<?> argClass) {
         if (ProductCreated.class.isAssignableFrom(argClass)) {
-            return EventEnum.PRODUCT_CREATED;
+            return EventType.PRODUCT_CREATED;
         } else {
             return null;
         }

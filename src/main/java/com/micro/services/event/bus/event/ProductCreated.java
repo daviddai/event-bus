@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.micro.services.event.bus.event.model.ProductContent;
 
-public class ProductCreated {
+public class ProductCreated implements Event {
 
     private final ProductContent productContent;
 

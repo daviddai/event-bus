@@ -1,4 +1,4 @@
-package com.micro.services.event.bus.annotation;
+package com.micro.services.event.bus.subscriber.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

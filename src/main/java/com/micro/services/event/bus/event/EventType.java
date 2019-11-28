@@ -1,6 +1,6 @@
 package com.micro.services.event.bus.event;
 
-public enum EventEnum {
+public enum EventType {
     
     PRODUCT_CREATED("supplierExchange", "supplier.createProduct", ProductCreated.class);
 
@@ -8,7 +8,7 @@ public enum EventEnum {
     private final String routingKey;
     private final Class<?> eventClass;
 
-    EventEnum(String exchangeName, String routingKey, Class<?> eventClass) {
+    EventType(String exchangeName, String routingKey, Class<?> eventClass) {
         this.exchangeName = exchangeName;
         this.routingKey = routingKey;
         this.eventClass = eventClass;

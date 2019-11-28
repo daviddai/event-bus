@@ -1,4 +1,4 @@
-package com.micro.services.event.bus.annotation;
+package com.micro.services.event.bus.subscriber.annotation;
 
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
