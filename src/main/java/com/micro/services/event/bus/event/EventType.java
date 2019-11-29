@@ -1,5 +1,7 @@
 package com.micro.services.event.bus.event;
 
+import java.util.EnumSet;
+
 public enum EventType {
     
     PRODUCT_CREATED("supplierExchange", "supplier.createProduct", ProductCreated.class);
@@ -12,6 +14,14 @@ public enum EventType {
         this.exchangeName = exchangeName;
         this.routingKey = routingKey;
         this.eventClass = eventClass;
+    }
+
+    public static EventType getEventType(Event event) {
+        return EnumSet.allOf(EventType.class)
+            .stream()
+            .filter(eventType -> eventType.getEventClass() == event.getClass())
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("Event type does not exist"));
     }
 
     public String getExchangeName() {

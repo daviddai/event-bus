@@ -1,5 +1,6 @@
 package com.micro.services.event.bus.event;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ public class EventTest {
     }
 
     @Test
-    public void productCreatedDeserialisationShouldContainEventType()
+    public void testEventSerialisationAndDeserialisation()
             throws JsonGenerationException, JsonMappingException, IOException {
         ProductContent productContent = new ProductContent
             .Builder()
@@ -30,10 +31,10 @@ public class EventTest {
             .withProductDescription("Bla...")
             .build();
         
-        final String json = objectMapper.writeValueAsString(new ProductCreated(productContent));
-        System.out.println(json);
+        Event event = new ProductCreated(productContent);
+        final String json = objectMapper.writeValueAsString(event);
         
-        Event event = objectMapper.readValue(json, Event.class);
+        event = objectMapper.readValue(json, Event.class);
 
         assertTrue(event.getClass().isAssignableFrom(ProductCreated.class));
 
@@ -41,6 +42,13 @@ public class EventTest {
 
         assertTrue(productCreated.getProductContent().getProductCode().equals(productContent.getProductCode()));
         assertTrue(productCreated.getProductContent().getProductDescription().equals(productContent.getProductDescription()));
+    }
+
+    @Test
+    public void testGetEventTypeFromEventClass() {
+        Event event = new ProductCreated(new ProductContent.Builder().build());
+        EventType eventType = EventType.getEventType(event);
+        assertEquals("Event type should be PRODUCT_CREATED", EventType.PRODUCT_CREATED, eventType);
     }
 
 }
