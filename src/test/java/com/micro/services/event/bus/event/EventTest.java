@@ -1,5 +1,7 @@
 package com.micro.services.event.bus.event;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -28,13 +30,17 @@ public class EventTest {
             .withProductDescription("Bla...")
             .build();
         
-        Event event = new ProductCreated(productContent);
-        
-        final String json = objectMapper.writeValueAsString(event);
-
+        final String json = objectMapper.writeValueAsString(new ProductCreated(productContent));
         System.out.println(json);
+        
+        Event event = objectMapper.readValue(json, Event.class);
 
-        objectMapper.readValue(json, Event.class);
+        assertTrue(event.getClass().isAssignableFrom(ProductCreated.class));
+
+        ProductCreated productCreated = (ProductCreated) event;
+
+        assertTrue(productCreated.getProductContent().getProductCode().equals(productContent.getProductCode()));
+        assertTrue(productCreated.getProductContent().getProductDescription().equals(productContent.getProductDescription()));
     }
 
 }
