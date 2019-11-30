@@ -11,6 +11,7 @@ import org.springframework.util.ReflectionUtils;
 import java.lang.reflect.Method;
 import java.util.UUID;
 import com.micro.services.event.bus.event.EventType;
+import com.micro.services.event.bus.event.ProductAvailabilityUpdated;
 import com.micro.services.event.bus.event.ProductCreated;
 import com.micro.services.event.bus.event.converter.EventObjectConverter;;
 
@@ -66,6 +67,8 @@ public class EventSubscriberMethodCallback implements ReflectionUtils.MethodCall
     private EventType getEventEnum(Class<?> argClass) {
         if (ProductCreated.class.isAssignableFrom(argClass)) {
             return EventType.PRODUCT_CREATED;
+        } else if (ProductAvailabilityUpdated.class.isAssignableFrom(argClass)) {
+            return EventType.PRODUCT_AVAIL_UPDATED;
         } else {
             return null;
         }

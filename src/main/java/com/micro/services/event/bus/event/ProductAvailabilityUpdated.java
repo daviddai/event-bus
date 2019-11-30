@@ -13,7 +13,7 @@ public class ProductAvailabilityUpdated extends Event {
         this.productAvailability = productAvailability;
     }
 
-    public ProductAvailability productAvailability() {
+    public ProductAvailability getProductAvailability() {
         return productAvailability;
     }
 
