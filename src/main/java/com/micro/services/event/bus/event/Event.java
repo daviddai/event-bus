@@ -11,6 +11,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 )
 @JsonSubTypes({ 
     @Type(value = ProductCreated.class, name = "PRODUCT_CREATED"),
-    @Type(value = AvailabilitiesUpdated.class, name = "PRODUCT_AVAIL_UPDATED")
+    @Type(value = ProductAvailabilityUpdated.class, name = "PRODUCT_AVAIL_UPDATED")
 })
 public abstract class Event {}
