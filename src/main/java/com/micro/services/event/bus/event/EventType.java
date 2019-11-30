@@ -4,7 +4,8 @@ import java.util.EnumSet;
 
 public enum EventType {
     
-    PRODUCT_CREATED("supplierExchange", "supplier.createProduct", ProductCreated.class);
+    PRODUCT_CREATED("supplierExchange", "supplier.createProduct", ProductCreated.class),
+    PRODUCT_AVAIL_UPDATED("supplierExchange", "supplier.updateAvailabilities", AvailabilitiesUpdated.class);
 
     private final String exchangeName;
     private final String routingKey;
