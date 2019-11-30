@@ -6,19 +6,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ProductContent {
 
     private String productCode;
+    private String productName;
     private String productDescription;
 
     public ProductContent() {}
 
     @JsonCreator
     public ProductContent(@JsonProperty("productCode") String productCode,
+                          @JsonProperty("productName") String productName,
                           @JsonProperty("productDescription") String productDescription) {
         this.productCode = productCode;
+        this.productName = productName;
         this.productDescription = productDescription;
     }
 
     public String getProductCode() {
         return productCode;
+    }
+
+    public String getProductName() {
+        return productName;
     }
 
     public String getProductDescription() {
@@ -35,6 +42,11 @@ public class ProductContent {
 
         public Builder withProductCode(String productCode) {
             productContent.productCode = productCode;
+            return this;
+        }
+
+        public Builder withProductName(String productName) {
+            productContent.productName = productName;
             return this;
         }
 
