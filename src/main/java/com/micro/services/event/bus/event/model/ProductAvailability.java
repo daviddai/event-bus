@@ -1,6 +1,5 @@
 package com.micro.services.event.bus.event.model;
 
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -9,19 +8,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ProductAvailability {
 
     private String productCode;
-    private List<Date> availabilities;
-    private List<Date> unavailabilities;
+    private List<ProductAvailabilityRule> availabilityRules;
+    private List<ProductAvailabilityRule> unavailabilityRules;
 
 
     public ProductAvailability() {}
 
     @JsonCreator
-    public ProductAvailability(@JsonProperty("productCode") String productCode,
-                               @JsonProperty("availabilities") List<Date> availabilities, 
-                               @JsonProperty("unavailabilities") List<Date> unavailabilities) {
+    public ProductAvailability(@JsonProperty("productCode") final String productCode,
+                               @JsonProperty("availabilityRules") final List<ProductAvailabilityRule> availabilityRules, 
+                               @JsonProperty("unavailabilityRules") final List<ProductAvailabilityRule> unavailabilityRules) {
         this.productCode = productCode;
-        this.availabilities = availabilities;
-        this.unavailabilities = unavailabilities;
+        this.availabilityRules = availabilityRules;
+        this.unavailabilityRules = unavailabilityRules;
     }
 
     public String getProductCode() {
@@ -29,35 +28,35 @@ public class ProductAvailability {
     }
 
 
-    public List<Date> getAvailabilities() {
-        return this.availabilities;
+    public List<ProductAvailabilityRule> getAvailabilityRules() {
+        return this.availabilityRules;
     }
 
 
-    public List<Date> getUnavailabilities() {
-        return this.unavailabilities;
+    public List<ProductAvailabilityRule> getUnavailabilityRules() {
+        return this.unavailabilityRules;
     }
 
     public static class Builder {
 
-        private ProductAvailability productAvailability;
+        private final ProductAvailability productAvailability;
 
         public Builder() {
             productAvailability = new ProductAvailability();
         }
 
-        public Builder withProductCode(String productCode) {
+        public Builder withProductCode(final String productCode) {
             productAvailability.productCode = productCode;
             return this;
         }
 
-        public Builder withAvailabilities(List<Date> availabilities) {
-            productAvailability.availabilities = availabilities;
+        public Builder withAvailabilityRules(final List<ProductAvailabilityRule> availabilities) {
+            productAvailability.availabilityRules = availabilities;
             return this;
         }
 
-        public Builder withUnavailabilities(List<Date> unavailabilities) {
-            productAvailability.unavailabilities = unavailabilities;
+        public Builder withUnavailabilityRules(final List<ProductAvailabilityRule> unavailabilities) {
+            productAvailability.unavailabilityRules = unavailabilities;
             return this;
         }
 
