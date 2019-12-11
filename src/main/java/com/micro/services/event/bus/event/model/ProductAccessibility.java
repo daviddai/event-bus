@@ -42,7 +42,7 @@ public class ProductAccessibility {
             return this;
         }
 
-        public Builder withAvailabilityRules(final List<ProductAccessibilityDateRange> accessibleDateRanges) {
+        public Builder withProductAccessibilityDataRanges(final List<ProductAccessibilityDateRange> accessibleDateRanges) {
             productAccessibility.accessibleDateRanges = accessibleDateRanges;
             return this;
         }
