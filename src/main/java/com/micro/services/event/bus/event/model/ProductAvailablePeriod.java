@@ -5,14 +5,14 @@ import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ProductAccessibilityDateRange {
+public class ProductAvailablePeriod {
     private LocalDate from;
     private LocalDate to;
 
-    public ProductAccessibilityDateRange() {}
+    public ProductAvailablePeriod() {}
 
     @JsonCreator
-    public ProductAccessibilityDateRange(@JsonProperty("from")LocalDate from, @JsonProperty("to")LocalDate to) {
+    public ProductAvailablePeriod(@JsonProperty("from")LocalDate from, @JsonProperty("to")LocalDate to) {
         this.from = from;
         this.to = to;
     }

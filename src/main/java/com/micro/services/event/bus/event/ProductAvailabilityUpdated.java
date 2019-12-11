@@ -2,19 +2,19 @@ package com.micro.services.event.bus.event;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.micro.services.event.bus.event.model.ProductAccessibility;
+import com.micro.services.event.bus.event.model.ProductAvailability;
 
 public class ProductAvailabilityUpdated extends Event {
 
-    private ProductAccessibility productAccessibility;
+    private ProductAvailability productAvailability;
 
     @JsonCreator
-    public ProductAvailabilityUpdated(@JsonProperty("productAccessibility") ProductAccessibility productAccessibility) {
-        this.productAccessibility = productAccessibility;
+    public ProductAvailabilityUpdated(@JsonProperty("productAvailability") ProductAvailability productAvailability) {
+        this.productAvailability = productAvailability;
     }
 
-    public ProductAccessibility getProductAccessibility() {
-        return productAccessibility;
+    public ProductAvailability getProductAvailability() {
+        return productAvailability;
     }
 
 }
