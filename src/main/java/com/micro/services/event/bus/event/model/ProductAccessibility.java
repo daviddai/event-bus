@@ -24,8 +24,7 @@ public class ProductAccessibility {
         return this.productCode;
     }
 
-
-    public List<ProductAccessibilityDateRange> gAccessibilityDateRanges() {
+    public List<ProductAccessibilityDateRange> getAccessibilityDateRanges() {
         return this.accessibleDateRanges;
     }
 
