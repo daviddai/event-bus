@@ -33,7 +33,7 @@ public class ProductAvailabilityPeriodTest {
     }
 
     @Test
-    public void testProductAvailabilityPeriodSerialisationAndDeserialisationProcess() throws IOException {
+    public void testProductAvailabilityPeriodSerialisation() throws IOException {
         final String json = objectMapper.writeValueAsString(getProductAvailabilityPeriod());
         ProductAvailablePeriod productAvailablePeriod = objectMapper.readValue(json, ProductAvailablePeriod.class);
         assertNotNull(productAvailablePeriod);
