@@ -5,8 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.micro.services.event.bus.event.model.ProductContent;
 
@@ -23,8 +21,7 @@ public class EventTest {
     }
 
     @Test
-    public void testEventSerialisationAndDeserialisation()
-            throws JsonGenerationException, JsonMappingException, IOException {
+    public void testEventSerialisationAndDeserialisation() throws IOException {
         ProductContent productContent = new ProductContent
             .Builder()
             .withProductCode("P1234")
@@ -40,8 +37,8 @@ public class EventTest {
 
         ProductCreated productCreated = (ProductCreated) event;
 
-        assertTrue(productCreated.getProductContent().getProductCode().equals(productContent.getProductCode()));
-        assertTrue(productCreated.getProductContent().getProductDescription().equals(productContent.getProductDescription()));
+        assertEquals(productCreated.getProductContent().getProductCode(), productContent.getProductCode());
+        assertEquals(productCreated.getProductContent().getProductDescription(), productContent.getProductDescription());
     }
 
     @Test
